@@ -22,7 +22,24 @@ class RouletteTable:
         self.moneyOnTable = 0
 
     def starting_playing(self):
-        playername = raw_input("Welcome to French Terminal Roulette!\nPlease enter your name?\n")
+        playername = raw_input(
+            "\n\n"
+            "                  Welcome to                    \n"
+            "    ______                    _             __  \n"
+            "   / _ __/__  _________ ___  (_)___  ____ _/ /  \n"
+            "    / / / _ \/ ___/ __ `__ \/ / __ \/ __ `/ /   \n"
+            "   / / /  __/ /  / / / / / / / / / / /_/ / /    \n"
+            "  /_/  \___/_/  /_/ /_/ /_/_/_/ /_/\__,_/_/     \n"
+            "      ____              __     __  __           \n"
+            "     / __ \____  __  __/ /__  / /_/ /____       \n"
+            "    / /_/ / __ \/ / / / / _ \/ __/ __/ _ \      \n"
+            "   / _, _/ /_/ / /_/ / /  __/ /_/ /_/ __/       \n"
+            "  /_/ |_|\____/\__,_/_/\___/\__/\__/\___/       \n"
+            "                                                \n"
+            "                                                \n"
+            "Terminal Roulette allows you to play French Roulette \n"
+            "from the comfort of your favorite terminal.\n\n"
+            "Please enter your name: ")
         # if name contains numbers, then the player will be asked if it's really his name - if not then the name can be changed
         while any(c.isdigit() for c in playername):
             answer = raw_input("Is "+playername+" really your name? (y/n)").lower()
@@ -35,16 +52,21 @@ class RouletteTable:
 
 
         # set up the description for the user
-        introduction = "How does French Terminal Roulette work?\n\n"
-        "At the beginning you can set the amount of money that you want to bring to the Roulette Table.\n" \
-        "In the betting phase you first choose between 6 different types of bet, and then select the" \
-        "amount of money you want to place. You can repeat this process as often as you want or till" \
-        "you run out of money. Afer the betting phase the virtual croupier will spin the roulette" \
-        "weel, to determine the winning number and color.\n" \
+        introduction = (
+        "\n\nWelcome to Terminal Roulette," + playername + "\n\n"
+        "How does French Roulette work?\n"
+        "At the beginning you decide how much money you want to bring to the \n"
+        "Roulette Table. The you can choose between 6 different types of bet, \n"
+        "and then select the amount of money you want to place. You can place as \n"
+        "many bets as you like, als long as you have the money. After you \n"
+        "finished betting, the virtual croupier will spin the roulette wheel to \n"
+        "determine the winning number and color.                              \n\n"
+        "                                                           Good Luck! \n\n"
+        )
 
         # asking the player how much money he wants to set and check if it's more then zero - if not ask again
         while True:
-            playersmoney = raw_input(introduction+"How much money do want to bet?")
+            playersmoney = raw_input(introduction+"How much money do want to bet? ")
             try:
                 playersmoney = int(playersmoney)
                 if playersmoney>0:
@@ -63,11 +85,11 @@ class RouletteTable:
 
         # asking player if he wants to play again + check if input is valid
         while True:
-            answer = raw_input("Do want to play another round? (y/n)").lower()
+            answer = raw_input("Do want to play another round? (y/n) ").lower()
             if answer in ['no','n','nein']:
                 self.stop_playing()
             elif answer not in ['yes','y','ja']:
-                print('Not valid answer. Please give y/yes or n/no')
+                print('Not valid answer. Please give y/yes or n/no ')
 
 
 
@@ -79,15 +101,15 @@ class RouletteTable:
         while True:
             # choosing the option
             while True:
-                betting_option = raw_input("Choose a option you want to bet on. (use the number between the parenthesis)\n" \
+                betting_option = raw_input("\nChoose an option you want to bet on. (use the number between the parenthesis)\n" \
                 "The numbers in [ ] represent the payout of each bet.\n"
-                "   (1) 'Straight' or 'Single' a bet on a single number [35 to 1]\n" \
-                "   (2) 'Manque' or 'Passe' a bet on the first 18 {1-18} or second 18 {19-36} numbers. [1 to 1]\n" \
-                "   (3) Red or Black or 'Rouge ou Noir' a bet on which color the roulette wheel will show. [1 to 1]\n" \
-                "   (4) Even or odd 'Pair ou Impair' a bet on even or odd nonzero number. [1 to 1]\n" \
-                "   (5) Dozen Bets a bet on the first 12 {1-12}, second 12 {13-24} or third 12 {25-36} numbers. [2 to 1]\n" \
-                "   (6) Column Bets a bet on one of the three vertical lines e.g.: 1-4-7-10 . . . [2 to 1]\n" \
-                "   (7) stop playing\n")
+                "   (1) 'Straight' or 'Single'        : bet on a single number [35 to 1]\n" \
+                "   (2) 'Manque' or 'Passe'           : bet on the first 18 {1-18} or second 18 {19-36} numbers. [1 to 1]\n" \
+                "   (3) 'Rouge ou Noir' (Red or Black): bet on which color the roulette wheel will show. [1 to 1]\n" \
+                "   (4) 'Pair ou Impair' (Even or odd): bet on even or odd numbers (without 0). [1 to 1]\n" \
+                "   (5) 'Dozen Bets'                  : bet on the first dozen {1-12}, second dozen {13-24} or third dozen {25-36} numbers. [2 to 1]\n" \
+                "   (6) 'Column Bets'                 : bet on one of the three vertical lines e.g.: 1-4-7-10 . . . [2 to 1]\n\n" \
+                "   (7) Stop playing\n")
 
                 try:
                     betting_option = int(betting_option)
@@ -116,17 +138,17 @@ class RouletteTable:
                             if value < 0 or value >2:
                                 raise ValueError
                         elif betting_option==3:
-                            value = raw_input("Your are betting on 'red' or 'black'" \
+                            value = raw_input("Your are betting on 'red' or 'black'. \n" \
                                     "Please decide on which you want to bet (red/black): ").lower()
                             if not any(value in ['red','black']):
                                 raise ValueError
                         elif betting_option==4:
-                            value = raw_input("Your are betting on 'even' or 'odd'" \
+                            value = raw_input("Your are betting on 'even' or 'odd'.  \n" \
                                     "Please decide on which you want to bet (even/odd): ").lower()
                             if not any(value in ['even','odd']):
                                 raise ValueError
                         elif betting_option==5:
-                            value = int(raw_input("You chose the Dozen bets option" \
+                            value = int(raw_input("You chose the Dozen bets option.  \n" \
                                     "Please decide on which set of 12 numbers you want to bet (use the number between the parenthesis):\n" \
                                     "   (1) first 12 {1-12}\n" \
                                     "   (2) second 12 {13-24}\n" \
@@ -134,7 +156,7 @@ class RouletteTable:
                             if value <1 or value >3:
                                 raise ValueError
                         elif betting_option==6:
-                            value = int(raw_input("You chose the Column bets option" \
+                            value = int(raw_input("You chose the Column bets option. \n" \
                                     "Please decide on which column you want to bet (use the number between the parenthesis):\n" \
                                     "   (1) first column {1,4,7,10,13,16,19,22,25,28,31,34}\n" \
                                     "   (2) second column {2,5,8,11,14,17,20,23,26,29,32,35}\n" \
