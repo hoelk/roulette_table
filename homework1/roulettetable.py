@@ -22,34 +22,35 @@ class RouletteTable:
         self.moneyOnTable = 0
 
     def starting_playing(self):
-        playername = raw_input("Welcome Sir/Madame to the French Terminal Roulette!\nWhat's your name?\n")
+        playername = raw_input("Welcome to French Terminal Roulette!\nPlease enter your name?\n")
         # if name contains numbers, then the player will be asked if it's really his name - if not then the name can be changed
         while any(c.isdigit() for c in playername):
-            answer = raw_input("Is that correct that your name is "+playername+"? (y/n)").lower()
+            answer = raw_input("Is "+playername+" really your name? (y/n)").lower()
             if answer in ['yes','y','ja']:
                 break
             elif answer not in ['no','n','nein']:
-                print('This is not a valid answer. Please answer with y/n.')
+                print('This is not a valid answer. Please enter your real name y/n.')
             else:
-                playername = raw_input("So what's your name Sir/Madame?")
+                playername = raw_input("So, what is your name?")
 
 
         # set up the description for the user
-        introduction =  "How works French Terminal Roulette?\n" \
-        "At the beginning you can set the amount of money which you want to take to the Roulette Table.\n" \
-        "In the betting phase you can choose different options on which you can bet with a specific amount\n" \
-        "of money you have to define. But you can bet on several options.Afer the betting phase the Roulette\n" \
-        "will be rotated and the determined number decides if you win or lose money.\n\n"
+        introduction = "How does French Terminal Roulette work?\n\n"
+        "At the beginning you can set the amount of money that you want to bring to the Roulette Table.\n" \
+        "In the betting phase you first choose between 6 different types of bet, and then select the" \
+        "amount of money you want to place. You can repeat this process as often as you want or till" \
+        "you run out of money. Afer the betting phase the virtual croupier will spin the roulette" \
+        "weel, to determine the winning number and color.\n" \
 
         # asking the player how much money he wants to set and check if it's more then zero - if not ask again
         while True:
-            playersmoney = raw_input(introduction+"How much money do want to use for the play?")
+            playersmoney = raw_input(introduction+"How much money do want to bet?")
             try:
                 playersmoney = int(playersmoney)
                 if playersmoney>0:
                     break
             except ValueError:
-                print("Please give a number over 0!")
+                print("Please enter a number greater than 0!")
 
         # save player object into the roulettetabel object
         self.playerOnTable = Player(playername,playersmoney)
@@ -81,7 +82,7 @@ class RouletteTable:
                 betting_option = raw_input("Choose a option you want to bet on. (use the number between the parenthesis)\n" \
                 "The numbers in [ ] represent the payout of each bet.\n"
                 "   (1) 'Straight' or 'Single' a bet on a single number [35 to 1]\n" \
-                "   (2) 'Manque' or 'Passe' a bet on thefirst 18 {1-18} or second 18 {19-36} numbers. [1 to 1]\n" \
+                "   (2) 'Manque' or 'Passe' a bet on the first 18 {1-18} or second 18 {19-36} numbers. [1 to 1]\n" \
                 "   (3) Red or Black or 'Rouge ou Noir' a bet on which color the roulette wheel will show. [1 to 1]\n" \
                 "   (4) Even or odd 'Pair ou Impair' a bet on even or odd nonzero number. [1 to 1]\n" \
                 "   (5) Dozen Bets a bet on the first 12 {1-12}, second 12 {13-24} or third 12 {25-36} numbers. [2 to 1]\n" \
@@ -104,7 +105,7 @@ class RouletteTable:
                         if betting_option==1:
                             # ask for the number betwen 0 and 36
                             value = int(raw_input("You are betting on a single number.\n" \
-                                    "Give a number between 0 and 36 you want to bet on: "))
+                                    "Choose a number between 0 and 36: "))
                             if value < 0 or value >36:
                                 raise ValueError
                         elif betting_option==2:
@@ -125,7 +126,7 @@ class RouletteTable:
                             if not any(value in ['even','odd']):
                                 raise ValueError
                         elif betting_option==5:
-                            value = int(raw_input("You choose the Dozen bets option" \
+                            value = int(raw_input("You chose the Dozen bets option" \
                                     "Please decide on which set of 12 numbers you want to bet (use the number between the parenthesis):\n" \
                                     "   (1) first 12 {1-12}\n" \
                                     "   (2) second 12 {13-24}\n" \
@@ -144,24 +145,24 @@ class RouletteTable:
                             self.stop_playing()
                         break
                     except ValueError:
-                        "This is not a valid input! Please try it again."
+                        "This is not a valid input! Please try again."
 
 
 
                 while True:
                     try:
-                        money = float(raw_input("How much money do want to bet on this option?: "))
+                        money = float(raw_input("How much money do want to place?: "))
                         if money <=0:
                             raise ValueError
                     except ValueError:
-                        "This is not a valid number! Please give a positiv number over 0."
+                        "This is not a valid number! Please enter a number greater than 0."
                         continue
 
                     # take money from player
                     status = self.playerOnTable.loses(money)
                     if status == True:
                         break
-                    print('You only have {} Euro for a bet left. Please bet less money.'.format(self.playerOnTable.getmoneystatus()))
+                    print('You have only {} Euro left. Please bet less money.'.format(self.playerOnTable.getmoneystatus()))
 
 
                 # save the amount of money which is left on the table
@@ -178,7 +179,7 @@ class RouletteTable:
                     elif answer in ['yes','y','ja']:
                         break
                     else:
-                        print('Not valid answer. Please give y/yes or n/no')
+                        print('This is not valid answer. You have to answer either y/yes or n/no')
 
     def rotate_roulette(self):
         self.roulette_number=random.randint(0,36)
@@ -187,11 +188,11 @@ class RouletteTable:
     # get color of the Roulette number
     def getcolor(self):
         if any(self.roulette_number in [1,3,5,7,9,12,14,16,18,19,21,23,25,27,30,32,34,36]):
-            return 'red'
+            return 'Red'
         elif self.roulette_number == 0:
-            return 'None'
+            return 'No color (Zero)'
         else:
-            return 'black'
+            return 'Black'
 
     # check if Roulette number is even or odd
     def checkeven(self):
@@ -246,7 +247,7 @@ class RouletteTable:
                 self.takemoneyfromtable(money)
 
         self.playerOnTable.loses(self.moneyOnTable)
-        print("You have won {} Euro and lost {} Euro!\n You have now {} Euro".format(won_money,self.moneyOnTable,self.playerOnTable.getmoneystatus()))
+        print("You won {} Euro and lost {} Euro!\n You now have {} Euro in total.".format(won_money,self.moneyOnTable,self.playerOnTable.getmoneystatus()))
 
 
     # gives back the winning quote for a specific bet-option
@@ -261,5 +262,5 @@ class RouletteTable:
 
     # stops the program and gives the status of players money
     def stop_playing(self):
-        print('You are leaving the Roulette table with {} Euro .'.format(self.playerOnTable.getmoneystatus()))
+        print('You are leaving the Roulette table with {} Euro.'.format(self.playerOnTable.getmoneystatus()))
         exit()
