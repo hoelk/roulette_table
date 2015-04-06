@@ -141,7 +141,7 @@ class RouletteTable:
                         elif betting_option==3:
                             value = raw_input("Your are betting on 'red' or 'black'. \n" \
                                     "Please decide on which you want to bet (red/black): ").lower()
-                            if not any(value in ['red','black']):
+                            if not value in ['red','black']:
                                 raise ValueError
                         elif betting_option==4:
                             value = raw_input("Your are betting on 'even' or 'odd'.  \n" \
@@ -149,15 +149,15 @@ class RouletteTable:
                             if not any(value in ['even','odd']):
                                 raise ValueError
                         elif betting_option==5:
-                            value = int(raw_input("You chose the Dozen bets option.  \n" \
+                            value = int(raw_input("You betting on dozens.  \n" \
                                     "Please decide on which set of 12 numbers you want to bet (use the number between the parenthesis):\n" \
-                                    "   (1) first 12 {1-12}\n" \
-                                    "   (2) second 12 {13-24}\n" \
-                                    "   (3) third 12 {25-36}\n"))
+                                    "   (1) first dozen {1-12}\n" \
+                                    "   (2) second dozen {13-24}\n" \
+                                    "   (3) third dozen {25-36}\n"))
                             if value <1 or value >3:
                                 raise ValueError
                         elif betting_option==6:
-                            value = int(raw_input("You chose the Column bets option. \n" \
+                            value = int(raw_input("You are betting on columns. \n" \
                                     "Please decide on which column you want to bet (use the number between the parenthesis):\n" \
                                     "   (1) first column {1,4,7,10,13,16,19,22,25,28,31,34}\n" \
                                     "   (2) second column {2,5,8,11,14,17,20,23,26,29,32,35}\n" \
@@ -169,8 +169,6 @@ class RouletteTable:
                         break
                     except ValueError:
                         "This is not a valid input! Please try again."
-
-
 
                 while True:
                     try:
@@ -186,7 +184,6 @@ class RouletteTable:
                     if status == True:
                         break
                     print('You have only {} Euro left. Please bet less money.'.format(self.playerOnTable.getmoneystatus()))
-
 
                 # save the amount of money which is left on the table
                 self.addmoney2table(money)
@@ -206,7 +203,7 @@ class RouletteTable:
 
     def rotate_roulette(self):
         self.roulette_number=random.randint(0,36)
-        print("Roulette stopped at number {} !".format(self.roulette_number))
+        print("\nThe roulette stopped at number {} !".format(self.roulette_number))
 
     # get color of the Roulette number
     def getcolor(self):
@@ -270,7 +267,7 @@ class RouletteTable:
                 self.takemoneyfromtable(money)
 
         self.playerOnTable.loses(self.moneyOnTable)
-        print("You won {} Euro and lost {} Euro!\n You now have {} Euro in total.".format(won_money,self.moneyOnTable,self.playerOnTable.getmoneystatus()))
+        print("You won {} Euro and lost {} Euro!\nYou now have {} Euro in total.\n".format(won_money,self.moneyOnTable,self.playerOnTable.getmoneystatus()))
 
 
     # gives back the winning quote for a specific bet-option
