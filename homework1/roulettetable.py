@@ -146,7 +146,7 @@ class RouletteTable:
                         elif betting_option==4:
                             value = raw_input("Your are betting on 'even' or 'odd'.  \n" \
                                     "Please decide on which you want to bet (even/odd): ").lower()
-                            if not any(value in ['even','odd']):
+                            if not value in ['even','odd']:
                                 raise ValueError
                         elif betting_option==5:
                             value = int(raw_input("You betting on dozens.  \n" \
