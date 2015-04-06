@@ -66,7 +66,7 @@ class RouletteTable:
 
         # asking the player how much money he wants to set and check if it's more then zero - if not ask again
         while True:
-            playersmoney = raw_input(introduction+"How much money do want to bet? ")
+            playersmoney = raw_input(introduction+"How much money do want to bring to the table? ")
             try:
                 playersmoney = int(playersmoney)
                 if playersmoney>0:
@@ -90,7 +90,8 @@ class RouletteTable:
                 self.stop_playing()
             elif answer not in ['yes','y','ja']:
                 print('Not valid answer. Please give y/yes or n/no ')
-
+            else:
+                self.betting_phase()
 
 
 
@@ -173,7 +174,7 @@ class RouletteTable:
 
                 while True:
                     try:
-                        money = float(raw_input("How much money do want to place?: "))
+                        money = float(raw_input("How much money do want to bet?: "))
                         if money <=0:
                             raise ValueError
                     except ValueError:
